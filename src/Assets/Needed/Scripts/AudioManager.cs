@@ -30,7 +30,7 @@ public class AudioManager : MonoBehaviour
             }
             track = Random.Range(0, Themes.Length - 1);
             
-            StartCoroutine(playTheme(track.ToString()));
+            StartCoroutine(PlayTheme(track.ToString()));
         }
         if (type == 1)
         {
@@ -95,13 +95,13 @@ public class AudioManager : MonoBehaviour
         }
     }
 
-   IEnumerator playTheme(string name)
+   IEnumerator PlayTheme(string name)
    {
        Sounds s = Array.Find(Themes, sound => sound.name == name);
        s.source.Play();
        yield return new WaitForSeconds(s.clip.length);
        track = Random.Range(0, Themes.Length - 1);      
-       StartCoroutine(playTheme(track.ToString()));
+       StartCoroutine(PlayTheme(track.ToString()));
     }
 
 }

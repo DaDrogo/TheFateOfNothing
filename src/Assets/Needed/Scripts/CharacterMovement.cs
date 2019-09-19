@@ -1,80 +1,58 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.InputSystem;
 
 public class CharacterMovement : MonoBehaviour
 {
-    public PlayerPlatformerController control;
-    public Animator animator;
-    public AudioManager audioM;
+    CharacterValues values;
+    Rigidbody2D rb;
 
-    PlayerControls padControls;
+    float direction;
 
-    float horMove;
+    public bool grounded = true;
 
-    public float speed = 40f;
-
-    bool jump = false;
-
-    Vector2 move;
-
-    private void Awake()
+    private void Start()
     {
-        padControls = new PlayerControls();
-
-        padControls.Gameplay.Move.performed += ctx => move = ctx.ReadValue<Vector2>();
-        padControls.Gameplay.Move.performed += ctx => move = Vector2.zero;
-        padControls.Gameplay.Jump.performed += ctx => Jump();
+        values = GetComponent<CharacterValues>();
+        rb = GetComponent<Rigidbody2D>();
     }
 
-    private void OnEnable()
+    public void Move(float horMove, bool jump)
     {
-        padControls.Gameplay.Enable();
-    }
-
-    private void OnDisable()
-    {
-        padControls.Gameplay.Disable();
-    }
-
-
-    private void Update()
-    {
-        Vector2 m = new Vector2(move.x, move.y) * Time.deltaTime;
-        transform.Translate(m, Space.World);
-
-
-        horMove = Input.GetAxisRaw("Horizontal")*speed;
-
-        animator.SetFloat("speed", Mathf.Abs(horMove));
-        
-        if (Input.GetButtonDown("Jump"))
+        direction = horMove;
+        Vector2 position = new Vector2(horMove, 0);
+        //float posX = transform.position.x;
+        //posX += horMove * Time.deltaTime * values.MoveSpeed;
+        //transform.position = new Vector3(posX, transform.position.y, 0);
+        if (Input.GetAxis("Horizontal") < 0)
         {
-            Jump();
-
+            Turn(-0.2f);
+        }
+        else if (Input.GetAxis("Horizontal") > 0)
+        {
+            Turn(0.2f);
         }
 
+        if (jump == true && grounded == true)
+        {
+            Jump();
+        }
     }
-
-    void Jump()
-    {
-        jump = true;
-        animator.SetBool("inAir", true);
-        
-    }
-
-    public void Land()
-    {
-        animator.SetBool("inAir", false);
-        //audioM.Play("Jump_Land", 0);
-        
-    }
-
     private void FixedUpdate()
     {
+        transform.Translate(new Vector3(direction * values.MoveSpeed * Time.deltaTime, 0, 0));
 
-        control.Move(horMove * Time.fixedDeltaTime, false, jump);
-        jump = false;
+    }
+
+    private void Jump()
+    {
+        rb.velocity = new Vector2(rb.velocity.x, 0);
+        rb.AddForce(Vector2.up * values.JumpHight,ForceMode2D.Impulse);
+        grounded = false;
+    }
+
+    private void Turn(float xValue)
+    {
+        transform.localScale = new Vector3(xValue, 0.2f, 1);
     }
 }

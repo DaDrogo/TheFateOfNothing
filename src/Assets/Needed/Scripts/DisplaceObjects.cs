@@ -4,26 +4,34 @@ using UnityEngine;
 
 public class DisplaceObjects : MonoBehaviour
 {
-    float transpaicy;
-    public float value;
-    public GameObject interactableGamobject;
+    private float transparicy;
 
-    public CharacterValues values;
+    public float value;
+
+    public GameObject interactableGamobject;
+    CharacterValues values;
+    GameObject player;
 
     private void Update()
     {
-        transpaicy = values.Transparicy;
+        player = GameObject.Find(Var.CHARACTER);
+        values = player.GetComponent<CharacterValues>();
+        CheckTransparicy();
+    }
 
-        if(transpaicy > value)
+    private void CheckTransparicy()
+    {
+        transparicy = values.Transparicy;
+
+        if (transparicy > value)
         {
             //wenn die transparenz größer ist erscheint das object
             interactableGamobject.SetActive(true);
         }
-        else if (transpaicy <= value)
+        else if (transparicy <= value)
         {
             //wenn die transparenz kleiner ist verschwindet das object
             interactableGamobject.SetActive(false);
         }
-
     }
 }

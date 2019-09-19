@@ -12,7 +12,12 @@ public class Footsteps : MonoBehaviour
 
     private void Update()
     {
-        if(controller.grounded==true&&controller.velocity.magnitude > 2f&&type=="gras")
+        
+    }
+
+    private void PlayStep()
+    {
+        if (controller.grounded == true && controller.velocity.magnitude > 2f && type == "gras")
         {
             audios.Play("Gras_Step", 3);
         }
@@ -28,5 +33,11 @@ public class Footsteps : MonoBehaviour
         {
             audios.Play("Wood_Step", 3);
         }
+
+        if(controller.grounded == true && controller.velocity.magnitude > 2f)
+        {
+            
+        }
+
     }
 }

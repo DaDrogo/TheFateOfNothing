@@ -5,9 +5,11 @@ using UnityEngine;
 public class Landing : MonoBehaviour
 {
 
-    public CharacterMovement cm;
+    public CharacterMovementAnimator cmAnimator;
+    public CharacterMovement cMovement;
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        cm.Land();        
+        cmAnimator.Land();
+        cMovement.grounded = true;
     }
 }
