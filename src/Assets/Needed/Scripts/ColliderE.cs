@@ -16,22 +16,36 @@ public class ColliderE : MonoBehaviour
     public float trans_amount;
     public int type;
 
+    private bool activated;
+
+    private void Update()
+    {
+        if (Input.GetButtonDown("E")&&activated)
+        {
+            switch (type)
+            {
+                case 0:
+                    ActivateItem();
+                    break;
+                case 1:
+                    OpenDoor();
+                    break;
+                case 2:
+                    manager.ResetGame();
+                    break;
+                case 3:
+                    DeleteObject();
+                    break;                    
+                default:
+                    break;
+            }
+        }
+    }
+
 
     private void OnTriggerExit2D(Collider2D other)
     {
-        if (type == 0||type==3)
-        {
-            showGrab.SetActive(false);
-        }
-        else if (type == 1)
-        {
-            showTeleport.SetActive(false);
-        }
-        else if (type == 2)
-        {
-            showDead.SetActive(false);
-        }
-
+        UI(false);
     }
 
     private void ActivateItem()
@@ -43,55 +57,35 @@ public class ColliderE : MonoBehaviour
 
     private void OpenDoor()
     {
-
         player.transform.position = point.transform.position;
     }
 
     private void OnTriggerStay2D(Collider2D other)
     {
-
-        if (other)
+        if (other.gameObject.tag == Var.PLAYER)
         {
-            if (type == 0)
-            {
-                showGrab.SetActive(true);
-                if (Input.GetButtonDown("E"))
-                {
-                    ActivateItem();
-                    showGrab.SetActive(false);
-                }
-            }
-            else if (type == 1)
-            {
-                showTeleport.SetActive(true);
-                if (Input.GetButtonDown("E"))
-                {
-                    OpenDoor();
-                    showTeleport.SetActive(false);
-                }
-            }
-            else if (type == 2)
-            {
-                showDead.SetActive(true);
-                if (Input.GetButtonDown("E"))
-                {
-                    manager.ResetGame();
-                    showDead.SetActive(false);
-                }
-            }
-            else if(type == 3)
-            {
-                showGrab.SetActive(true);
-                if (Input.GetButtonDown("E"))
-                {
-                    DeleteObject();
-                    showGrab.SetActive(false);
-                }
-            }
-
-        }
-        
+            UI(true);
+        } 
     }
+
+    private void UI(bool status)
+    {
+        activated = status;
+
+        if (type == 0 || type == 3)
+        {
+            showGrab.SetActive(status);
+        }
+        else if (type == 1)
+        {
+            showTeleport.SetActive(status);
+        }
+        else if (type == 2)
+        {
+            showDead.SetActive(status);
+        }
+    }
+
     void DeleteObject()
     {
         this.gameObject.SetActive(false);

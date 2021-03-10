@@ -3,23 +3,18 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class CharacterValues : MonoBehaviour
+public class CharacterValues:MonoBehaviour
 {
-    public float Transparicy =50;
+    public float Transparicy;
     public float MoveSpeed;
     public float JumpHight;
 
-    public GameManage manage;
-
     SpriteRenderer sprite;
-    
-
-    
+    GameManage manage;
 
     private void Start()
     {
         
-
     }
 
     private void Update()

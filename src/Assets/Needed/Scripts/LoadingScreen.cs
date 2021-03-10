@@ -6,17 +6,19 @@ using UnityEngine.UI;
 
 public class LoadingScreen : MonoBehaviour
 {
-    float operation;
-    public Slider slider;
+    private float Operation;
 
-    public void LoadScene()
+    public Slider slider;
+    public int scene;
+
+    private void LoadScene()
     {
         StartCoroutine(Loading());
     }
 
     IEnumerator Loading()
     {
-        AsyncOperation async = SceneManager.LoadSceneAsync(2);
+        AsyncOperation async = SceneManager.LoadSceneAsync(scene);
 
         while (!async.isDone)
         {

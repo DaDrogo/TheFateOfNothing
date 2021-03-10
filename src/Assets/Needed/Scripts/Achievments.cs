@@ -4,18 +4,13 @@ using UnityEngine;
 
 public class Achievments : MonoBehaviour
 {
-
-   
-
     public GameObject symbol;
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        if (collision.tag == "Player")
+        if (collision.tag == Var.PLAYER)
         {
             symbol.SetActive(true);
         }
-    }
-
-    
+    }  
 }

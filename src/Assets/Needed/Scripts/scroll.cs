@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class scroll : MonoBehaviour
+public class Scroll : MonoBehaviour
 {
     public MeshRenderer meshR;
 
